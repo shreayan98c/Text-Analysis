@@ -1,6 +1,7 @@
 import argparse
 
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
 
@@ -21,7 +22,8 @@ class EOSClassifier:
         # focus on building good features.
         # Don't start experimenting with other models until you are confident
         # you have reached the scoring upper bound.
-        self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
+        # self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
+        self.clf = RandomForestClassifier()
         X = [self.extract_features(x) for x in trainX]
         self.clf.fit(X, trainY)
 
@@ -45,7 +47,7 @@ class EOSClassifier:
             left_reliable,
             right_reliable,
             num_spaces,
-            1 if word_m1 in self.abbrevs else 0
+            1 if word_m1 in self.abbrevs else 0,
 
             # ==========TODO==========
             # Make a note of the score you'll get with
@@ -58,8 +60,8 @@ class EOSClassifier:
             # We've given you some features you might want to experiment with below.
             # You should be able to quickly get a score above 0.95!
 
-            # len(word_m1),
-            # 1 if word_p1.isupper() else 0
+            len(word_m1),
+            1 if word_p1.isupper() else 0
         ]
 
         return features
