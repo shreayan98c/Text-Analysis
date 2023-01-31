@@ -57,9 +57,13 @@ class EOSClassifier:
             1 if word_m1.lower() in self.abbrevs else 0,
             1 if word_m1.lower() in self.titles else 0,
             1 if word_m1.lower() in self.timeterms else 0,
-            1 if '.' in word_m1 else 0,
-            1 if '.' in word_m2 else 0,
-            1 if '.' in word_m3 else 0,
+            word_m1.count('.'),
+            word_m2.count('.'),
+            word_m3.count('.'),
+            # word_p1.count('.'),
+            # word_p2.count('.'),
+            1 if '.' in word_p1 else 0,
+            1 if '.' in word_p2 else 0,
 
             # ==========TODO==========
             # Make a note of the score you'll get with
@@ -78,7 +82,6 @@ class EOSClassifier:
         # We want to take some component(s) above and "translate" them to a numerical value.
         # For example, our 4th feature has a value of 1 if word_m1 is an abbreviation,
         # and 0 if not.
-
 
         return features
 
