@@ -1,8 +1,13 @@
-import argparse
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
+
+import argparse
+from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
+from xgboost import XGBClassifier
 
 
 class EOSClassifier:
@@ -23,7 +28,9 @@ class EOSClassifier:
         # Don't start experimenting with other models until you are confident
         # you have reached the scoring upper bound.
         # self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
-        self.clf = RandomForestClassifier()
+        self.clf = LogisticRegression()
+        # self.clf = RandomForestClassifier()
+        # self.clf = XGBClassifier()
         X = [self.extract_features(x) for x in trainX]
         self.clf.fit(X, trainY)
 
