@@ -3,7 +3,11 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
 import argparse
+from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
@@ -28,7 +32,10 @@ class EOSClassifier:
         # Don't start experimenting with other models until you are confident
         # you have reached the scoring upper bound.
         # self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
-        self.clf = LogisticRegression()
+        # self.clf = LogisticRegression()
+        # self.clf = GaussianNB()
+        self.clf = SVC()
+        # self.clf = KNeighborsClassifier()
         # self.clf = RandomForestClassifier()
         # self.clf = XGBClassifier()
         X = [self.extract_features(x) for x in trainX]
@@ -116,6 +123,11 @@ def main():
     args = parseargs()
     trainX, trainY = load_data(args.train)
     testX, testY = load_data(args.test)
+
+    # Feature Scaling
+    # sc = StandardScaler()
+    # trainX = sc.fit_transform(trainX)
+    # testX = sc.transform(testX)
 
     classifier = EOSClassifier()
     classifier.train(trainX, trainY)
