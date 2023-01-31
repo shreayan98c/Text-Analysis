@@ -1,6 +1,6 @@
 import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
 
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import argparse
 from sklearn.preprocessing import StandardScaler
@@ -10,13 +10,12 @@ from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report
 from xgboost import XGBClassifier
+from sklearn.metrics import classification_report
 
 
 class EOSClassifier:
     def train(self, trainX, trainY):
-
         # HINT!!!!!
         # (The following word lists might be very helpful.)
         self.abbrevs = load_wordlist('classes/abbrevs')
@@ -25,16 +24,15 @@ class EOSClassifier:
         self.titles = load_wordlist("classes/titles")
         self.unlikely_proper_nouns = load_wordlist("classes/unlikely_proper_nouns")
 
-
         # In this part of the code, we're loading a Scikit-Learn model.
         # We're using a DecisionTreeClassifier... it's simple and lets you
         # focus on building good features.
         # Don't start experimenting with other models until you are confident
         # you have reached the scoring upper bound.
-        # self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
+        self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
         # self.clf = LogisticRegression()
         # self.clf = GaussianNB()
-        self.clf = SVC()
+        # self.clf = SVC()
         # self.clf = KNeighborsClassifier()
         # self.clf = RandomForestClassifier()
         # self.clf = XGBClassifier()
@@ -42,7 +40,6 @@ class EOSClassifier:
         self.clf.fit(X, trainY)
 
     def extract_features(self, array):
-
         # Our model requires some kind of numerical input.
         # It can't handle the sentence as-is, so we need to quantify our them
         # somehow.
@@ -61,7 +58,8 @@ class EOSClassifier:
             left_reliable,
             right_reliable,
             num_spaces,
-            1 if word_m1 in self.abbrevs else 0,
+            1 if word_m1.lower() in self.abbrevs else 0,
+            1 if word_m1.lower() in self.titles else 0,
 
             # ==========TODO==========
             # Make a note of the score you'll get with
@@ -75,7 +73,7 @@ class EOSClassifier:
             # You should be able to quickly get a score above 0.95!
 
             len(word_m1),
-            1 if word_p1.isupper() else 0
+            1 if word_p1.isupper() else 0,
         ]
 
         return features
