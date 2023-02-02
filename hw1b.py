@@ -17,9 +17,11 @@ class SegmentClassifier:
             len(text),
             len(text.strip()),
             len(words),
-            1 if '>' in words else 0,
-            # text.count(' '),
-            # sum(1 if w.isupper() else 0 for w in words)
+            1 if '>' in words[0] or ':' in words[0] else 0,
+            text.count(' '),
+            sum(1 if w.isupper() else 0 for w in words) / len(words),
+            text.count(''),
+
         ]
         return features
 
