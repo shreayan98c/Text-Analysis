@@ -54,11 +54,14 @@ class EOSClassifier:
         # Make sure to use them!
         id, word_m3, word_m2, word_m1, period, word_p1, word_p2, word_3, left_reliable, right_reliable, num_spaces = array
 
-        pos_m1 = self.get_pos(word_m1)
-        pos_m2 = self.get_pos(word_m2)
-        pos_m3 = self.get_pos(word_m3)
-        pos_p1 = self.get_pos(word_p1)
-        pos_p2 = self.get_pos(word_p2)
+        # context = ' '.join([word_m3, word_m2, word_m1, word_p1, word_p2])
+        # context_pos = self.get_sent_pos(context)
+
+        pos_m1 = self.get_word_pos(word_m1)
+        pos_m2 = self.get_word_pos(word_m2)
+        pos_m3 = self.get_word_pos(word_m3)
+        pos_p1 = self.get_word_pos(word_p1)
+        pos_p2 = self.get_word_pos(word_p2)
 
         # The "features" array holds a list of
         # values that should act as predictors.
@@ -80,6 +83,7 @@ class EOSClassifier:
             # word_p2.count('.'),
             1 if '.' in word_p1 else 0,
             1 if '.' in word_p2 else 0,
+            # *context_pos,
             pos_m1,
             pos_m2,
             pos_m3,
@@ -111,13 +115,27 @@ class EOSClassifier:
         X = [self.extract_features(x) for x in testX]
         return self.clf.predict(X)
 
-    def get_pos(self, word):
+    def get_word_pos(self, word):
         pos_str = nlp(word)[0].pos_
         if pos_str not in self.pos_dict:
             self.pos_dict[pos_str] = self.pos_ct
             self.pos_ct += 1
 
         return self.pos_dict[pos_str]
+
+    def get_sent_pos(self, context):
+        pos_list = []
+        sent_pos = nlp(context)
+        for idx, word in enumerate(sent_pos):
+            pos_str = sent_pos[idx].pos_
+            if pos_str not in self.pos_dict:
+                self.pos_dict[pos_str] = self.pos_ct
+                self.pos_ct += 1
+
+            pos_list.append(self.pos_dict[pos_str])
+            print(word, pos_str)
+
+        return pos_list
 
 
 def load_wordlist(file):
