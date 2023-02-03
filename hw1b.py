@@ -1,3 +1,4 @@
+import re
 import argparse
 from itertools import groupby
 
@@ -12,15 +13,41 @@ class SegmentClassifier:
         self.clf.fit(X, trainY)
 
     def extract_features(self, text):
+        # numbers = sum(c.isalpha() for c in text) / len(text)
+        # letters = sum(c.isalpha() for c in text) / len(text)
+        # spaces = sum(c.isspace() for c in text) / len(text)
+        # others = (len(text) - numbers - letters - spaces) / len(text)
+
         words = text.split()
+
+        # check if the text is a mail
+        try_find_address = False
+        if re.match(
+            '^From:|^Article:|^Path:|^Newsgroups:|^Subject:|^Date:|^Organization:|^Lines:|^Approved:|^Message-ID:|^References:',
+            words[0]):
+            try_find_address = True
+
         features = [  # TODO: add features here
             len(text),
             len(text.strip()),
             len(words),
-            1 if '>' in words[0] or ':' in words[0] else 0,
-            text.count(' '),
-            sum(1 if w.isupper() else 0 for w in words) / len(words),
-            text.count(''),
+            # numbers,
+            # letters,
+            # spaces,
+            # others,
+            sum(1 if re.match('^(>|:|\s*\S*\s*>|@)', word)  # quotation starts
+                     or re.match('^.+(wrote|writes|said):', word) else 0 for word in words),  # article start
+            text.count(' '),  # number of spaces to detect blank lines
+            text.count('|') + text.count('-') + text.count('+') + text.count('_') + text.count('\\') + text.count('/'),  # figures
+            sum(1 if w.isupper() else 0 for w in words) / len(words),  # uppercase chars ratio
+            sum(1 if w.isnumeric() else 0 for w in words) / len(words),  # numeric chars ratio
+            1 if try_find_address else 0,  # if any "headline" keyword found
+            # len(re.sub('[\w]+', '', text)),  # number of non word chars (special chars)
+            len(re.sub('[\w]+', '', text)),  # number of non word chars (special chars)
+            sum(1 if re.match('^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$', word)  # for emails
+                     or re.match('^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$', word) else 0 for word in words),  # for phone numberss
+                                                                               #
+            # text.count(''),
 
         ]
         return features
