@@ -18,7 +18,11 @@ class SegmentClassifier:
         # spaces = sum(c.isspace() for c in text) / len(text)
         # others = (len(text) - numbers - letters - spaces) / len(text)
 
+        self.len_prev_line = -1
         words = text.split()
+        if self.len_prev_line == -1:
+            self.bos = True
+            self.len_prev_line = len(words)
 
         # check if the text is a mail
         try_find_address = False
@@ -42,14 +46,16 @@ class SegmentClassifier:
             sum(1 if w.isupper() else 0 for w in words) / len(words),  # uppercase chars ratio
             sum(1 if w.isnumeric() else 0 for w in words) / len(words),  # numeric chars ratio
             1 if try_find_address else 0,  # if any "headline" keyword found
-            # len(re.sub('[\w]+', '', text)),  # number of non word chars (special chars)
+            # len(re.sub('[\w]+', '', text)),  # number of non word chars (special chars) -- doesn't work well
             len(re.sub('[\w]+', '', text)),  # number of non word chars (special chars)
             sum(1 if re.match('^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$', word)  # for emails
-                     or re.match('^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$', word) else 0 for word in words),  # for phone numberss
-                                                                               #
+                     or re.match('^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$', word) else 0 for word in words),  # for phone numbers
+            1 if self.bos or self.len_prev_line - 1 < len(words) < self.len_prev_line + 1 else 0,  # for tables, if len of words in current line matches prev line
             # text.count(''),
-
         ]
+        self.bos = False
+        self.len_prev_line = len(words)
+
         return features
 
     def classify(self, testX):
