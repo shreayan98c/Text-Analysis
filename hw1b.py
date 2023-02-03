@@ -27,8 +27,8 @@ class SegmentClassifier:
         # check if the text is a mail
         try_find_address = False
         if re.match(
-            '^From:|^Article:|^Path:|^Newsgroups:|^Subject:|^Date:|^Organization:|^Lines:|^Approved:|^Message-ID:|^References:',
-            words[0]):
+                '^From:|^Article:|^Path:|^Newsgroups:|^Subject:|^Date:|^Organization:|^Lines:|^Approved:|^Message-ID:|^References:',
+                words[0]):
             try_find_address = True
 
         features = [  # TODO: add features here
@@ -42,15 +42,17 @@ class SegmentClassifier:
             sum(1 if re.match('^(>|:|\s*\S*\s*>|@)', word)  # quotation starts
                      or re.match('^.+(wrote|writes|said):', word) else 0 for word in words),  # article start
             text.count(' '),  # number of spaces to detect blank lines
-            text.count('|') + text.count('-') + text.count('+') + text.count('_') + text.count('\\') + text.count('/'),  # figures
+            # figures
+            text.count('|') + text.count('-') + text.count('+') + text.count('_') + text.count('\\') + text.count('/'),
             sum(1 if w.isupper() else 0 for w in words) / len(words),  # uppercase chars ratio
             sum(1 if w.isnumeric() else 0 for w in words) / len(words),  # numeric chars ratio
             1 if try_find_address else 0,  # if any "headline" keyword found
             # len(re.sub('[\w]+', '', text)),  # number of non word chars (special chars) -- doesn't work well
             len(re.sub('[\w]+', '', text)),  # number of non word chars (special chars)
             sum(1 if re.match('^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$', word)  # for emails
-                     or re.match('^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$', word) else 0 for word in words),  # for phone numbers
-            1 if self.bos or self.len_prev_line - 1 < len(words) < self.len_prev_line + 1 else 0,  # for tables, if len of words in current line matches prev line
+                     or re.match('^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$', word) else 0 for word in words),  # phone number
+            # for tables, if len of words in current line matches prev line
+            1 if self.bos or self.len_prev_line - 1 < len(words) < self.len_prev_line + 1 else 0,
             # text.count(''),
         ]
         self.bos = False
