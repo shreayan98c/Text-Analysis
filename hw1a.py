@@ -1,8 +1,8 @@
-import warnings
+# import warnings
+#
+# warnings.simplefilter(action='ignore', category=FutureWarning)
 
-warnings.simplefilter(action='ignore', category=FutureWarning)
-
-import spacy
+# import spacy
 import argparse
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -11,10 +11,10 @@ from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from xgboost import XGBClassifier
+# from xgboost import XGBClassifier
 from sklearn.metrics import classification_report
 
-nlp = spacy.load("en_core_web_sm")
+# nlp = spacy.load("en_core_web_sm")
 
 
 class EOSClassifier:
@@ -57,11 +57,11 @@ class EOSClassifier:
         # context = ' '.join([word_m3, word_m2, word_m1, word_p1, word_p2])
         # context_pos = self.get_sent_pos(context)
 
-        pos_m1 = self.get_word_pos(word_m1)
-        pos_m2 = self.get_word_pos(word_m2)
-        pos_m3 = self.get_word_pos(word_m3)
-        pos_p1 = self.get_word_pos(word_p1)
-        pos_p2 = self.get_word_pos(word_p2)
+        # pos_m1 = self.get_word_pos(word_m1)
+        # pos_m2 = self.get_word_pos(word_m2)
+        # pos_m3 = self.get_word_pos(word_m3)
+        # pos_p1 = self.get_word_pos(word_p1)
+        # pos_p2 = self.get_word_pos(word_p2)
 
         # The "features" array holds a list of
         # values that should act as predictors.
@@ -84,11 +84,11 @@ class EOSClassifier:
             1 if '.' in word_p1 else 0,
             1 if '.' in word_p2 else 0,
             # *context_pos,
-            pos_m1,
-            pos_m2,
-            pos_m3,
-            pos_p1,
-            pos_p2,
+            # pos_m1,
+            # pos_m2,
+            # pos_m3,
+            # pos_p1,
+            # pos_p2,
 
             # ==========TODO==========
             # Make a note of the score you'll get with
@@ -115,6 +115,7 @@ class EOSClassifier:
         X = [self.extract_features(x) for x in testX]
         return self.clf.predict(X)
 
+    '''
     def get_word_pos(self, word):
         pos_str = nlp(word)[0].pos_
         if pos_str not in self.pos_dict:
@@ -136,6 +137,7 @@ class EOSClassifier:
             print(word, pos_str)
 
         return pos_list
+    '''
 
 
 def load_wordlist(file):
