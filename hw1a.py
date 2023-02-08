@@ -1,6 +1,6 @@
-# import warnings
-#
-# warnings.simplefilter(action='ignore', category=FutureWarning)
+import warnings
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # import spacy
 import argparse
@@ -21,12 +21,12 @@ class EOSClassifier:
     def train(self, trainX, trainY):
         # HINT!!!!!
         # (The following word lists might be very helpful.)
-        self.abbrevs = load_wordlist('classes/abbrevs')
-        self.sentence_internal = load_wordlist("classes/sentence_internal")
-        self.timeterms = load_wordlist("classes/timeterms")
-        self.titles = load_wordlist("classes/titles")
-        self.places = load_wordlist("classes/places")
-        self.unlikely_proper_nouns = load_wordlist("classes/unlikely_proper_nouns")
+        self.abbrevs = load_wordlist('abbrevs')
+        self.sentence_internal = load_wordlist("sentence_internal")
+        self.timeterms = load_wordlist("timeterms")
+        self.titles = load_wordlist("titles")
+        self.places = load_wordlist("places")
+        self.unlikely_proper_nouns = load_wordlist("unlikely_proper_nouns")
         self.pos_dict = {}
         self.pos_ct = 0
 
@@ -35,12 +35,12 @@ class EOSClassifier:
         # focus on building good features.
         # Don't start experimenting with other models until you are confident
         # you have reached the scoring upper bound.
-        self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
+        # self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
         # self.clf = LogisticRegression()
         # self.clf = GaussianNB()
         # self.clf = SVC()
         # self.clf = KNeighborsClassifier()
-        # self.clf = RandomForestClassifier()
+        self.clf = RandomForestClassifier()
         # self.clf = XGBClassifier()
         X = [self.extract_features(x) for x in trainX]
         self.clf.fit(X, trainY)
@@ -62,6 +62,18 @@ class EOSClassifier:
         # pos_m3 = self.get_word_pos(word_m3)
         # pos_p1 = self.get_word_pos(word_p1)
         # pos_p2 = self.get_word_pos(word_p2)
+
+        ct_unlikely = 0
+        if word_m1 in self.unlikely_proper_nouns:
+            ct_unlikely += 1
+        if word_m2 in self.unlikely_proper_nouns:
+            ct_unlikely += 1
+        if word_m3 in self.unlikely_proper_nouns:
+            ct_unlikely += 1
+        if word_p1 in self.unlikely_proper_nouns:
+            ct_unlikely += 1
+        if word_p2 in self.unlikely_proper_nouns:
+            ct_unlikely += 1
 
         # The "features" array holds a list of
         # values that should act as predictors.
@@ -89,6 +101,7 @@ class EOSClassifier:
             # pos_m3,
             # pos_p1,
             # pos_p2,
+            ct_unlikely,
 
             # ==========TODO==========
             # Make a note of the score you'll get with
