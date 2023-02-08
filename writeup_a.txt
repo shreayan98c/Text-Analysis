@@ -3,6 +3,10 @@ Information Retrieval (601.666) Homework #1
 Shreayan Chaudhary
 February 7, 2023
 
+
+NOTE: TO VIEW THIS TEXT FILE IN A BETTER FORMAT, PLEASE VIEW THE hw1_writeup.pdf FILE THAT IS UPLOADED IN MY SUBMISSION.
+THE TABLES AND THE TEXT IS FORMATTED IN A NEAT MANNER IN THAT DOCUMENT.
+
 ************************************************************************************************************************
 Models I experimented with:
 
@@ -34,7 +38,7 @@ Note: Let context words be the 3 words before the period and 2 words after the p
 15. If the previous word is in upper case.
 16. If the next word is upper case.
 
-I used some more features that were useful but removed them since external libraries are not allowed:
+I used some more features that were useful but removed them since external libraries are not allowed (I used Spacy):
 1. Part of speech of the 3rd last word.
 2. Part of speech of the 2nd last word.
 3. Part of speech of the last word.
