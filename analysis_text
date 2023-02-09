@@ -1,43 +1,34 @@
-QUOTED	HEADL	 KC> NW          MSP, DTW                          NRT (Tokyo) MEM
-QUOTED	HEADL	 KC> US          PIT,             CLT,             PHL, DCA, LGA, BWI, IND
-SIG	TABLE	--
-Christopher Davis * <ckd@kei.com> * <URL:http://www.kei.com/homepages/ckd/>
-     512/03829F89 =  D7 C9 A7 80 8C 84 3F B2  27 E1 48 61 BF FC 18 B4
-    1024/66CB73DD =  46 8E FD F5 12 8E 13 4C  2C 8A 92 A3 B0 D5 2A 5E
-	  [ Public keys available by finger, WWW, or keyserver ]
-QUOTED	PTEXT	>Is is due to fly out of SFO?
-TABLE	PTEXT	    777 (A-market, base)	  505,000
-    777 (A-market, United)	  525,000
-    777 (B-market)		  625,000
-    747-400			  875,000
-    747-400F			  890,000
-    "new large airplane"	  900,000
-SIG	PTEXT	--
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
-  You think the only people who are people          ||  Marc Escuro [R]
-  Are the people who look and think like you        ||  (aka Bryan Esquire)
-  But if you walk the footsteps of a stranger       ||  (aka Bucko)
-  You learn things you never knew, you never knew.  ||
-                      from "Colors of the Wind"     ||  UC, Santa Cruz
-                             -Pocahontas            ||  bashir@cats.ucsc.edu
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+PTEXT	ADDRESS	Colorado Springs, Wisconsin
+NNHEAD	PTEXT	X-Attribution: ckd
+QUOTED	TABLE	 KC> DL          ATL,             DFW, SLC         CVG, FRA, MCO[*2]  JFK(?)
+SIG	QUOTED	Christopher Davis * <ckd@kei.com> * <URL:http://www.kei.com/homepages/ckd/>
+SIG	TABLE	     512/03829F89 =  D7 C9 A7 80 8C 84 3F B2  27 E1 48 61 BF FC 18 B4
+SIG	TABLE	    1024/66CB73DD =  46 8E FD F5 12 8E 13 4C  2C 8A 92 A3 B0 D5 2A 5E
+SIG	PTEXT		  [ Public keys available by finger, WWW, or keyserver ]
+TABLE	GRAPHIC	    747-400			  875,000
+TABLE	GRAPHIC	    747-400F			  890,000
+TABLE	PTEXT	    "new large airplane"	  900,000
+SIG	PTEXT	  You learn things you never knew, you never knew.  ||
+SIG	PTEXT	                      from "Colors of the Wind"     ||  UC, Santa Cruz
+SIG	GRAPHIC	                             -Pocahontas            ||  bashir@cats.ucsc.edu
+SIG	PTEXT	Lani Teshima-Miller (teshima@uhunix.uhcc.Hawaii.edu) "Sea Hare"  o/ /_/_/
+SIG	QUOTED	UH School of Library & Info Studies. "Whatever the cost of our   o|<0_0>------*
+PTEXT	QUOTED	Losing a dollar on every seat but making it up on volume :-)
+PTEXT	SIG	George
+QUOTED	PTEXT	Albert Avery Vise (avise@netcom.com) wrote:
 ITEM	PTEXT	1. SJC-NRT has not required a load restriction or fuel stop for several
-years. Even on a bad day.... The runway was extended and MDC worked out
-some of the range problems.
-2. Latin America is one of the fastest expanding markets. Keep watching
-it as their economies grow and the rest of the world is still faltering.
+ITEM	PTEXT	years. Even on a bad day.... The runway was extended and MDC worked out
+ITEM	PTEXT	some of the range problems.
+ITEM	PTEXT	2. Latin America is one of the fastest expanding markets. Keep watching
+ITEM	PTEXT	it as their economies grow and the rest of the world is still faltering.
 ITEM	PTEXT	3. AA got PHL-LHR because they originally bought the authority from TWA, and
-were not allowed to pick up the authority in 1991. They also paid for
-STL-LHR and ended up having to give it back (without a refund!) to TWA.
+ITEM	PTEXT	were not allowed to pick up the authority in 1991. They also paid for
+ITEM	PTEXT	STL-LHR and ended up having to give it back (without a refund!) to TWA.
 ITEM	PTEXT	4. The traffic justified both routes, as did the community and civic
-support (a trick learned from UAL's bid for ORD-NRT). With the amount of
-high-tech and offshore manufacturing in both TN and NC, there was demand
-and commitments to use the service. I didn't see that in DL's bid, aside
->from  the alleged support of the Mormon church....
-GRAPHIC	SIG	   ______       ______     _______ *    o  o  o
-  /  __   \    /  __  \   |   __  \      o  o   o
- |  |   |__|  |  |  |__|  |  |__)  )   o __o_         Friday, October 16, 1992
- |  |  ____   |  |____    |    ___/     |    |^\      5pm in Raisler lounge
- |  | |_   |   \____  \   |   __  \     |~~~~|  )     ( 2nd floor of Towne
- |  |__ |  |   --___|  )  |  |__)  )    |    |_/        near the stairwell )
-  \_______/   |_______/   |_______/    /______\
+ITEM	PTEXT	support (a trick learned from UAL's bid for ORD-NRT). With the amount of
+ITEM	PTEXT	high-tech and offshore manufacturing in both TN and NC, there was demand
+ITEM	PTEXT	and commitments to use the service. I didn't see that in DL's bid, aside
+ITEM	QUOTED	>from  the alleged support of the Mormon church....
+SIG	QUOTED	Gregory Glockner                      >> This message is an OJ-free zone <<
+SIG	PTEXT	Grant Lynde
+NNHEAD	TABLE	Received-Date: Wed, 26 Apr 1995 11:20:22 -0400

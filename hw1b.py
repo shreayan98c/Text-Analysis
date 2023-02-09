@@ -15,7 +15,7 @@ from sklearn.metrics import classification_report
 
 class SegmentClassifier:
     def train(self, trainX, trainY):
-        self.create_pos_dict()
+        # self.create_pos_dict()
         self.create_word_pos_mapping()
         # self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
         # self.clf = LogisticRegression()
@@ -38,10 +38,16 @@ class SegmentClassifier:
 
     def create_word_pos_mapping(self):
         self.word_pos_map = {}
+        self.pos_dict = {}
+        self.pos_ct = 0
+
         self.pos_list = load_wordlist('data/part-of-speech.histogram')
         for word in self.pos_list:
             word_entity = word.split(' ')
             freq, word, pos = word_entity[0], word_entity[1], word_entity[-1]
+            if pos not in self.pos_dict:
+                self.pos_dict[pos] = self.pos_ct
+                self.pos_ct += 1
             word = word.lower()
             self.word_pos_map[word] = pos
 
