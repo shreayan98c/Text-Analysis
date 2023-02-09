@@ -2,15 +2,48 @@ import re
 import argparse
 from itertools import groupby
 
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+# from xgboost import XGBClassifier
 from sklearn.metrics import classification_report
 
 
 class SegmentClassifier:
     def train(self, trainX, trainY):
-        self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
+        self.create_pos_dict()
+        self.create_word_pos_mapping()
+        # self.clf = DecisionTreeClassifier()  # TODO: experiment with different models
+        # self.clf = LogisticRegression()
+        # self.clf = GaussianNB()
+        # self.clf = SVC()
+        # self.clf = KNeighborsClassifier()
+        self.clf = RandomForestClassifier()
+        # self.clf = XGBClassifier()
+
         X = [self.extract_features(x) for x in trainX]
         self.clf.fit(X, trainY)
+
+    def create_pos_dict(self):
+        self.pos_dict = {}
+        self.pos_ct = 0
+        self.pos = load_wordlist('data/part-of-speech.list')
+        for pos in self.pos:
+            self.pos_dict[pos] = self.pos_ct
+            self.pos_ct += 1
+
+    def create_word_pos_mapping(self):
+        self.word_pos_map = {}
+        self.pos_list = load_wordlist('data/part-of-speech.histogram')
+        for word in self.pos_list:
+            word_entity = word.split(' ')
+            freq, word, pos = word_entity[0], word_entity[1], word_entity[-1]
+            word = word.lower()
+            self.word_pos_map[word] = pos
 
     def extract_features(self, text):
         # numbers = sum(c.isalpha() for c in text) / len(text)
@@ -20,6 +53,19 @@ class SegmentClassifier:
 
         self.len_prev_line = -1
         words = text.split()
+
+        # counting number of pos
+        pos_counts = {}
+        for pos in self.pos_dict.keys():
+            pos_counts[pos] = 0
+        for word in words:
+            word = word.lower()
+            if word in self.word_pos_map:
+                try:
+                    pos_counts[self.word_pos_map[word]] += 1
+                except KeyError:
+                    pass
+
         if self.len_prev_line == -1:
             self.bos = True
             self.len_prev_line = len(words)
@@ -27,7 +73,7 @@ class SegmentClassifier:
         # check if the text is a mail
         try_find_address = False
         if re.match(
-                '^From:|^Article:|^Path:|^Newsgroups:|^Subject:|^Date:|^Organization:|^Lines:|^Approved:|^Message-ID:|^References:',
+                '^From|^Article|^Path|^Newsgroups|^Subject|^Date|^Organization|^Lines|^Approved|^Message-ID|^References',
                 words[0]):
             try_find_address = True
 
@@ -54,6 +100,7 @@ class SegmentClassifier:
             # for tables, if len of words in current line matches prev line
             1 if self.bos or self.len_prev_line - 1 < len(words) < self.len_prev_line + 1 else 0,
             # text.count(''),
+            *pos_counts.values(),
         ]
         self.bos = False
         self.len_prev_line = len(words)
@@ -63,6 +110,11 @@ class SegmentClassifier:
     def classify(self, testX):
         X = [self.extract_features(x) for x in testX]
         return self.clf.predict(X)
+
+
+def load_wordlist(file):
+    with open(file) as fin:
+        return set([x.strip() for x in fin.readlines()])
 
 
 def load_data(file):
