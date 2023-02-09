@@ -91,8 +91,9 @@ class SegmentClassifier:
             # letters,
             # spaces,
             # others,
+            # quotation or article start
             sum(1 if re.match('^(>|:|\s*\S*\s*>|@)', word)  # quotation starts
-                     or re.match('^.+(wrote|writes|said):', word) else 0 for word in words),  # article start
+                     or re.match('^.+(wrote|writes|said|told|says|tells):', word) else 0 for word in words),  # articles
             text.count(' '),  # number of spaces to detect blank lines
             # figures
             text.count('|') + text.count('-') + text.count('+') + text.count('_') + text.count('\\') + text.count('/'),
