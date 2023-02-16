@@ -9,6 +9,7 @@ from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
 # from xgboost import XGBClassifier
 from sklearn.metrics import classification_report
 
@@ -23,6 +24,7 @@ class SegmentClassifier:
         # self.clf = SVC()
         # self.clf = KNeighborsClassifier()
         self.clf = RandomForestClassifier()
+        # self.clf = MLPClassifier(hidden_layer_sizes=(15, 15, 15), solver='lbfgs', max_iter=500)
         # self.clf = XGBClassifier()
 
         X = [self.extract_features(x) for x in trainX]
@@ -31,7 +33,7 @@ class SegmentClassifier:
     def create_pos_dict(self):
         self.pos_dict = {}
         self.pos_ct = 0
-        self.pos = load_wordlist('data/part-of-speech.list')
+        self.pos = load_wordlist('part-of-speech.list')
         for pos in self.pos:
             self.pos_dict[pos] = self.pos_ct
             self.pos_ct += 1
