@@ -23,7 +23,7 @@ class SegmentClassifier:
         # self.clf = GaussianNB()
         # self.clf = SVC()
         # self.clf = KNeighborsClassifier()
-        self.clf = RandomForestClassifier()
+        self.clf = RandomForestClassifier(n_estimators=3500, criterion='entropy')
         # self.clf = MLPClassifier(hidden_layer_sizes=(15, 15, 15), solver='lbfgs', max_iter=500)
         # self.clf = XGBClassifier()
 
@@ -43,7 +43,7 @@ class SegmentClassifier:
         self.pos_dict = {}
         self.pos_ct = 0
 
-        self.pos_list = load_wordlist('data/part-of-speech.histogram')
+        self.pos_list = load_wordlist('part-of-speech.histogram')
         for word in self.pos_list:
             word_entity = word.split(' ')
             freq, word, pos = word_entity[0], word_entity[1], word_entity[-1]
